@@ -1,5 +1,4 @@
 
-
 window.onload = function() {
  let nav = document.querySelector('.nav')
  let toggleCollapse =  document.querySelector('.toggle-collapse')
