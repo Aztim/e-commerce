@@ -58,15 +58,20 @@ class UI {
      productsDom.iierHTML = result;
    }
 }
-
+/* 
+local storage */
 class Storage {
-
+  static saveProducts(products) {
+    localStorage.setItem("products") 
+  }
 }
 
 document.addEventListener('DOMContentLoaded', ()=> {
   const ui = new UI()
   const products = new Products();
 
-  products.getProducts().then(products => ui.displayProducts(products))
+  products.getProducts().then(products => { 
+  ui.displayProducts(products))
+  Storage.saveProducts(products);
 })
 
