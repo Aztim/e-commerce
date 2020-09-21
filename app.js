@@ -7,7 +7,7 @@ const cartOVerlay = document.querySelector('.cart-overlay');
 const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.cart-total');
 const cartContent = document.querySelector('.cart-content');
-const productsDom = document.querySelector('.product-center');
+const productsDom = document.querySelector('.products-center');
 
 let cart = [];
 
@@ -43,17 +43,15 @@ class UI {
               alt="product" 
               class="product-img"
             >
-              <button class="bag-btn" data-id=${product.id}>
-                  <i class="fas fa-shopping-cart"></i>
-                  add to bags
-              </button>
+            <button class="bag-btn" data-id=${product.id}>
+              <i class="fas fa-shopping-cart">add to bags</i>
+            </button>
+          </div>
             <h3>${product.title}</h3>
             <h4>$${product.price}</h4>
-          </div>
         </article>
        `;
      });
-     console.log(result)
      productsDom.innerHTML = result;
    }
 }
@@ -67,7 +65,6 @@ local storage */
 
 document.addEventListener('DOMContentLoaded', ()=> {
   const ui = new UI()
-  console.log(ui)
   const products = new Products();
 
 /* get all products */
