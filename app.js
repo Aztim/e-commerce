@@ -8,13 +8,14 @@ const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.cart-total');
 const cartContent = document.querySelector('.cart-content');
 const productsDom = document.querySelector('.products-center');
+const btns = document.querySelectorAll(".bag-btn")
 
 let cart = [];
 
 class Products {
   async getProducts() {
     try {
-      let result = await fetch('product.json');
+      let result = await fetch('product.json'); /* With Live server */
       let data = await result.json();
       let products = data.items;
       
@@ -32,7 +33,7 @@ class Products {
 }
 
 class UI {
-   displayProducts(products) {
+  displayProducts(products) {
      let result = ''
      products.forEach(product => {
        result += `
@@ -53,15 +54,30 @@ class UI {
        `;
      });
      productsDom.innerHTML = result;
-   }
+  }
+  getBagButtons() {
+    const buttons = [...document.querySelectorAll(".bag-btn")];
+    buttons.forEach(button => {
+      let id = button.dataset.id;
+      let inCart =  cart.find(item => item.id === id)
+        if (inCart) {
+          button.innerHTML = "In Cart"
+          button.disabled = true;
+        }
+        button.addEventListener("click", event => {
+          event.target.innerText = "In Cart"
+          event.target.disabled = true;
+        });
+    })
+  }
 }
-/* 
-local storage */
-// class Storage {
-//   static saveProducts(products) {
-//     localStorage.setItem("products") 
-//   }
-// }
+
+/*local storage */
+class Storage {
+  static saveProducts(products) {
+    localStorage.setItem("products", JSON.stringify(products))
+  };
+}
 
 document.addEventListener('DOMContentLoaded', ()=> {
   const ui = new UI()
@@ -69,8 +85,10 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 /* get all products */
   products.getProducts().then(products => {
-  ui.displayProducts(products)
-  // Storage.saveProducts(products);
+    ui.displayProducts(products)
+    Storage.saveProducts(products);
+  }).then(()=> {
+    ui.getBagButtons();
   })
 })
 
