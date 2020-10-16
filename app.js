@@ -12,13 +12,14 @@ const btns = document.querySelectorAll(".bag-btn")
 
 let cart = [];
 
+let buttonsDOM = [];
+
 class Products {
   async getProducts() {
     try {
       let result = await fetch('product.json'); /* With Live server */
       let data = await result.json();
       let products = data.items;
-      
       products = products.map(item => {
         const { title, price } = item.fields;
         const { id } = item.sys;
@@ -57,6 +58,7 @@ class UI {
   }
   getBagButtons() {
     const buttons = [...document.querySelectorAll(".bag-btn")];
+    buttonsDOM = buttons;
     buttons.forEach(button => {
       let id = button.dataset.id;
       let inCart =  cart.find(item => item.id === id)
@@ -67,7 +69,24 @@ class UI {
         button.addEventListener("click", event => {
           event.target.innerText = "In Cart"
           event.target.disabled = true;
+          // //get product from products
+          let cartItem = {...Storage.getProducts(id), amount:1};
+          // // add product to the cart
+          cart = [...cart, cartItem]
+          // //save cart in local storage
+          Storage.saveCart(cart)
+          // set cart values
+          this.setCartValues(cart)
+          // show the cart
         });
+    })
+  }
+  setCartValues(cart){
+    let tempTotal = 0;
+    let itemsTotal = 0;
+    cart.map(item => {
+      tempTotal += item.price * item.amount;
+      itemsTotal += item.amount
     })
   }
 }
@@ -77,6 +96,13 @@ class Storage {
   static saveProducts(products) {
     localStorage.setItem("products", JSON.stringify(products))
   };
+  static getProducts(id) {
+    let products = JSON.parse(localStorage.getItem('products'));
+    return products.find(product =>  product.id === id)
+  }
+  static saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }
 }
 
 document.addEventListener('DOMContentLoaded', ()=> {
