@@ -1,6 +1,6 @@
 
 const cartBtn = document.querySelector('.cart-btn')
-const closecartBtn = document.querySelector('.close-cart');
+const closeCartBtn = document.querySelector('.close-cart');
 const clearcartBtn = document.querySelector('.clear-cart');
 const cartDom = document.querySelector('.cart');
 const cartOverlay = document.querySelector('.cart-overlay');
@@ -117,7 +117,16 @@ class UI {
   setupApp(){
     cart = Storage.getCart();
     this.setCartValues(cart);
-    this.populate(cart)
+    this.populateCart(cart);
+    cartBtn.addEventListener('click',this.showCart)
+    closeCartBtn.addEventListener('click',this.hideCart)
+  }
+  populateCart(cart) {
+    cart.forEach(item => this.addCartItem(item));
+  }
+  hideCart() {
+    cartOverlay.classList.remove('transparentBcg');
+    cartDom.classList.remove('showCart');
   }
 }
 
