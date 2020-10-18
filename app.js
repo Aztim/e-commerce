@@ -3,7 +3,7 @@ const cartBtn = document.querySelector('.cart-btn')
 const closecartBtn = document.querySelector('.close-cart');
 const clearcartBtn = document.querySelector('.clear-cart');
 const cartDom = document.querySelector('.cart');
-const cartOVerlay = document.querySelector('.cart-overlay');
+const cartOverlay = document.querySelector('.cart-overlay');
 const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.cart-total');
 const cartContent = document.querySelector('.cart-content');
@@ -80,6 +80,7 @@ class UI {
           //display cart item
           this.addCartItem(cartItem)
           // show the cart
+          this.showCart()
         });
     })
   }
@@ -108,6 +109,10 @@ class UI {
         <i class="fas fa-chevron-down" data-id=${item.id}></i>
       </div>`;
       cartContent.appendChild(div);
+  }
+  showCart() {
+    cartOverlay.classList.add('transparentBcg');
+    cartDom.classList.add('showCart');
   }
 }
 
