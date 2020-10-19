@@ -40,9 +40,9 @@ class UI {
        result += `
         <article class="product">
           <div class="img-container">
-            <img 
-              src=${product.image} 
-              alt="product" 
+            <img
+              src=${product.image}
+              alt="product"
               class="product-img"
             >
             <button class="bag-btn" data-id=${product.id}>
@@ -128,6 +128,21 @@ class UI {
     cartOverlay.classList.remove('transparentBcg');
     cartDom.classList.remove('showCart');
   }
+  cartLogic() {
+    clearcartBtn.addEventListener('click', () => {
+      this.clearCart();
+    })
+  }
+  clearCart() {
+    let cartItems = cart.map(item => item.id);
+    cartItems.forEach(id => this.removeItem(id) )
+  }
+  removeItem(id) {
+    cart = cart.filter(item => item.id !==id);
+    this.setCartValues(cart);
+    Storage.saveCart(cart);
+    let button = this.getSingleButton(id);
+  }
 }
 
 /*local storage */
@@ -160,6 +175,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     Storage.saveProducts(products);
   }).then(()=> {
     ui.getBagButtons();
+    ui.cartLogic();
   })
 })
 
